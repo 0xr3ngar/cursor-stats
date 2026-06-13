@@ -3,8 +3,7 @@ import sqlite3 from "bun:sqlite";
 import { getVscdbPath } from "../util/getVscdb";
 import { getAiCodeTrackingStats } from "./getAiCodeTrackingStats";
 
-// Read statevscdb from cursor database using the sqlite3 package
-// ~/Library/Application Support/Cursor/User/globalStorage/state.vscdb
+// Read state.vscdb from the Cursor global storage database
 export const readMachineStats = (vscdbPath?: string) => {
     const dbPath = getVscdbPath(vscdbPath);
 

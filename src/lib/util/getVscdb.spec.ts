@@ -5,18 +5,32 @@ import { join } from "node:path";
 
 import { getVscdbPath } from "./getVscdb";
 
-const DEFAULT_VSCDB_SEGMENTS = [
-    "Library",
-    "Application Support",
-    "Cursor",
-    "User",
-    "globalStorage",
-    "state.vscdb",
-] as const;
+const VSCDB_TAIL = ["Cursor", "User", "globalStorage", "state.vscdb"] as const;
+
+const mockDefaultPathResolution = (platform: NodeJS.Platform, home: string, appData?: string) => {
+    spyOn(os, "platform").mockReturnValue(platform);
+    spyOn(os, "homedir").mockReturnValue(home);
+
+    if (appData !== undefined) {
+        process.env.APPDATA = appData;
+    } else {
+        delete process.env.APPDATA;
+    }
+
+    spyOn(fs, "existsSync").mockReturnValue(true);
+};
 
 describe("getVscdbPath", () => {
+    const originalAppData = process.env.APPDATA;
+
     afterEach(() => {
         mock.restore();
+
+        if (originalAppData === undefined) {
+            delete process.env.APPDATA;
+        } else {
+            process.env.APPDATA = originalAppData;
+        }
     });
 
     test("returns the provided path when it exists and ends with .vscdb", () => {
@@ -27,16 +41,43 @@ describe("getVscdbPath", () => {
         expect(fs.existsSync).toHaveBeenCalledWith(vscdbPath);
     });
 
-    test("builds the default path from homedir when no path is provided", () => {
+    test("builds the default macOS path from homedir when no path is provided", () => {
         const home = "/Users/alice";
-        const expectedPath = join(home, ...DEFAULT_VSCDB_SEGMENTS);
+        const expectedPath = join(home, "Library", "Application Support", ...VSCDB_TAIL);
 
-        spyOn(os, "homedir").mockReturnValue(home);
-        spyOn(fs, "existsSync").mockReturnValue(true);
+        mockDefaultPathResolution("darwin", home);
 
         expect(getVscdbPath()).toBe(expectedPath);
         expect(os.homedir).toHaveBeenCalledTimes(1);
         expect(fs.existsSync).toHaveBeenCalledWith(expectedPath);
+    });
+
+    test("builds the default Linux path from homedir when no path is provided", () => {
+        const home = "/home/alice";
+        const expectedPath = join(home, ".config", ...VSCDB_TAIL);
+
+        mockDefaultPathResolution("linux", home);
+
+        expect(getVscdbPath()).toBe(expectedPath);
+        expect(os.homedir).toHaveBeenCalledTimes(1);
+        expect(fs.existsSync).toHaveBeenCalledWith(expectedPath);
+    });
+
+    test("builds the default Windows path from APPDATA when no path is provided", () => {
+        const appData = "C:\\Users\\alice\\AppData\\Roaming";
+        const expectedPath = join(appData, ...VSCDB_TAIL);
+
+        mockDefaultPathResolution("win32", "C:\\Users\\alice", appData);
+
+        expect(getVscdbPath()).toBe(expectedPath);
+        expect(os.homedir).not.toHaveBeenCalled();
+        expect(fs.existsSync).toHaveBeenCalledWith(expectedPath);
+    });
+
+    test("throws on Windows when APPDATA is not set", () => {
+        mockDefaultPathResolution("win32", "C:\\Users\\alice");
+
+        expect(() => getVscdbPath()).toThrow("APPDATA environment variable is not set");
     });
 
     test("throws when the path does not exist", () => {
