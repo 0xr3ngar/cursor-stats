@@ -4,9 +4,9 @@ import { createCLI } from "@bunli/core";
 import helloCommand from "./commands/hello.js";
 
 const cli = await createCLI({
-  name: "cursor-stats",
-  version: "0.1.0",
-  description: "A CLI built with Bunli",
+    description: "A CLI built with Bunli",
+    name: "cursor-stats",
+    version: "0.1.0",
 });
 
 cli.command(helloCommand);

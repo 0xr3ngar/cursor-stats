@@ -1,33 +1,28 @@
 import { defineConfig } from "@bunli/core";
 
 export default defineConfig({
-    name: "cursor-stats",
-    version: "0.1.0",
-    description: "A CLI built with Bunli",
-
+    build: {
+        compress: false,
+        entry: "./src/index.ts",
+        minify: true,
+        outdir: "./dist",
+        sourcemap: true,
+        targets: ["native"],
+    },
     commands: {
         directory: "./src/commands",
     },
-
-    build: {
-        entry: "./src/index.ts",
-        outdir: "./dist",
-        targets: ["native"],
-        minify: true,
-        sourcemap: true,
-        compress: false,
-    },
-
+    description: "A CLI built with Bunli",
     dev: {
-        watch: true,
         inspect: true,
+        watch: true,
     },
-
+    name: "cursor-stats",
+    plugins: [],
     test: {
-        pattern: ["**/*.test.ts", "**/*.spec.ts"],
         coverage: true,
+        pattern: ["**/*.test.ts", "**/*.spec.ts"],
         watch: false,
     },
-
-    plugins: [],
+    version: "0.1.0",
 });
