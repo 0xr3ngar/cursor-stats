@@ -13,11 +13,6 @@ export const readMachineStats = (vscdbPath?: string) => {
         const aiCodeTrackingStats = getAiCodeTrackingStats(db);
         return aiCodeTrackingStats;
     } catch (error: unknown) {
-        if (error instanceof Error) {
-            throw new TypeError(`Failed to read machine stats from ${dbPath}: ${error.message}`, {
-                cause: error,
-            });
-        }
         throw new Error(`Failed to read machine stats from ${dbPath}: ${String(error)}`, {
             cause: error,
         });
