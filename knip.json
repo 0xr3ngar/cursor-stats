@@ -1,0 +1,17 @@
+{
+    "$schema": "https://unpkg.com/knip@6/schema.json",
+    "workspaces": {
+        ".": {
+            "project": [
+                "src/**/*.ts"
+            ],
+            "ignoreBinaries": [
+                "tsgo"
+            ],
+            "ignoreDependencies": [
+                "@bunli/test",
+                "@tsconfig/bun"
+            ]
+        }
+    }
+}
