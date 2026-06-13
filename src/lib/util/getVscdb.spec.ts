@@ -64,10 +64,10 @@ describe("getVscdbPath", () => {
     });
 
     test("builds the default Windows path from APPDATA when no path is provided", () => {
-        const appData = "C:\\Users\\alice\\AppData\\Roaming";
+        const appData = String.raw`C:\Users\alice\AppData\Roaming`;
         const expectedPath = join(appData, ...VSCDB_TAIL);
 
-        mockDefaultPathResolution("win32", "C:\\Users\\alice", appData);
+        mockDefaultPathResolution("win32", String.raw`C:\Users\alice`, appData);
 
         expect(getVscdbPath()).toBe(expectedPath);
         expect(os.homedir).not.toHaveBeenCalled();
@@ -75,7 +75,7 @@ describe("getVscdbPath", () => {
     });
 
     test("throws on Windows when APPDATA is not set", () => {
-        mockDefaultPathResolution("win32", "C:\\Users\\alice");
+        mockDefaultPathResolution("win32", String.raw`C:\Users\alice`);
 
         expect(() => getVscdbPath()).toThrow("APPDATA environment variable is not set");
     });
