@@ -19,8 +19,8 @@ const metadata: Record<GeneratedNames, GeneratedCommandMeta> = {
       name: 'hello',
       description: 'Say hello to someone',
       options: {
-        'name': { type: 'z.string.default', required: true, hasDefault: true, default: "World", description: 'Name to greet', short: 'n', schema: {"type":"zod","method":"default","args":[{"type":"literal","value":"World"}]}, validator: '(val) => true' },
-        'excited': { type: 'z.boolean.default', required: true, hasDefault: true, default: false, description: 'Add excitement!', short: 'e', schema: {"type":"zod","method":"default","args":[{"type":"unknown","raw":{"type":"BooleanLiteral","start":365,"end":370,"loc":{"start":{"line":12,"column":44,"index":365},"end":{"line":12,"column":49,"index":370}},"value":false}}]}, validator: '(val) => true' }
+        'excited': { type: 'z.boolean.default', required: true, hasDefault: true, default: false, description: 'Add excitement!', short: 'e', schema: {"type":"zod","method":"default","args":[{"type":"unknown","raw":{"type":"BooleanLiteral","start":453,"end":458,"loc":{"start":{"line":14,"column":44,"index":453},"end":{"line":14,"column":49,"index":458}},"value":false}}]}, validator: '(val) => true' },
+        'name': { type: 'z.string.default', required: true, hasDefault: true, default: "World", description: 'Name to greet', short: 'n', schema: {"type":"zod","method":"default","args":[{"type":"literal","value":"World"}]}, validator: '(val) => true' }
       },
       path: './src/commands/hello'
     }
