@@ -37,5 +37,6 @@ jobs:
       - name: Knip
         run: bun run knip
 
-      - name: Test
-        run: bun run test
+      # TODO: Uncomment this when we have tests in repo
+      # - name: Test
+      #  run: bun run test
