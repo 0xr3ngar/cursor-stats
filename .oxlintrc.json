@@ -1,15 +1,6 @@
 {
     "$schema": "./node_modules/oxlint/configuration_schema.json",
-    "plugins": [
-        "eslint",
-        "typescript",
-        "unicorn",
-        "import",
-        "oxc",
-        "node",
-        "promise",
-        "jsdoc"
-    ],
+    "plugins": ["eslint", "typescript", "unicorn", "import", "oxc", "node", "promise", "jsdoc"],
     "env": {
         "node": true,
         "es2022": true
@@ -38,10 +29,7 @@
         ],
         "import/no-cycle": "error",
         "import/no-duplicates": "error",
-        "import/consistent-type-specifier-style": [
-            "warn",
-            "prefer-top-level"
-        ],
+        "import/consistent-type-specifier-style": ["warn", "prefer-top-level"],
         "typescript/no-explicit-any": "error",
         "typescript/no-floating-promises": "error",
         "typescript/no-misused-promises": "error",
@@ -58,10 +46,7 @@
         "import/no-named-export": "off",
         "import/prefer-default-export": "off",
         "unicorn/filename-case": "off",
-        "eslint/sort-imports": "off",
+        "eslint/sort-imports": "off"
     },
-    "ignorePatterns": [
-        "**/dist/**",
-        "**/node_modules/**"
-    ]
+    "ignorePatterns": ["**/dist/**", "**/node_modules/**", ".bunli/**"]
 }
