@@ -29,7 +29,6 @@
         "@bunli/test": "^0.6.0",
         "@tsconfig/bun": "1.0.10",
         "@types/bun": "^1.3.14",
-        "@types/react": "^19.2.17",
         "bunli": "^0.9.1",
         "knip": "^6.16.1",
         "oxfmt": "^0.54.0",
