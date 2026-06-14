@@ -12,7 +12,7 @@ import { dailyStat, machineSnapshot } from "./testing/fixtures";
 const JSON_INDENT = 2;
 
 describe("prepareSyncOutput", () => {
-    test("merges the current machine with existing machines in the output directory", () => {
+    test("merges the current machine with existing machines in the output directory", async () => {
         const { dbPath, dir: vscdbDir } = createVscdbFile([
             {
                 key: "aiCodeTracking.dailyStats2024-06-14",
@@ -38,20 +38,31 @@ describe("prepareSyncOutput", () => {
         );
 
         try {
-            const output = prepareSyncOutput({ outputDir, vscdbPath: dbPath });
+            const output = await prepareSyncOutput({
+                outputDir,
+                theme: {},
+                visibility: {
+                    showComposer: true,
+                    showTab: true,
+                },
+                vscdbPath: dbPath,
+            });
             const stats = output.files["stats.json"];
 
             expect(stats).toBeDefined();
-            expect("machines" in stats).toBe(true);
+            expect(typeof stats === "object" && "machines" in stats).toBe(true);
 
-            if (!("machines" in stats)) {
+            if (typeof stats !== "object" || !("machines" in stats)) {
                 throw new Error("Expected stats.json in sync output");
             }
 
             expect(Object.keys(output.files)).toEqual([
                 `machines/${identity.machineId}.json`,
+                "cursor-stats.png",
+                "README.md",
                 "stats.json",
             ]);
+            expect(output.files["cursor-stats.png"]).toBeInstanceOf(Uint8Array);
             expect(stats.machines["other-machine"]).toBeDefined();
             expect(stats.machines[identity.machineId]).toBeDefined();
         } finally {
