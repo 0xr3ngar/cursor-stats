@@ -1,15 +1,18 @@
 import { afterEach, describe, expect, mock, spyOn, test } from "bun:test";
-import os from "node:os";
+import os from "os";
 
 import { getMachineIdentity } from "./getMachineIdentity";
+import { ONE } from "./util/constants";
+
+const ONCE = ONE;
 
 const mockOsIdentity = (
-    overrides: {
-        username?: string;
+    overrides: Readonly<{
+        arch?: NodeJS.Architecture;
         hostname?: string;
         platform?: NodeJS.Platform;
-        arch?: NodeJS.Architecture;
-    } = {},
+        username?: string;
+    }> = {},
 ) => {
     const {
         username = "alice",
@@ -65,9 +68,9 @@ describe("getMachineIdentity", () => {
 
         getMachineIdentity();
 
-        expect(os.userInfo).toHaveBeenCalledTimes(1);
-        expect(os.hostname).toHaveBeenCalledTimes(1);
-        expect(os.platform).toHaveBeenCalledTimes(1);
-        expect(os.arch).toHaveBeenCalledTimes(1);
+        expect(os.userInfo).toHaveBeenCalledTimes(ONCE);
+        expect(os.hostname).toHaveBeenCalledTimes(ONCE);
+        expect(os.platform).toHaveBeenCalledTimes(ONCE);
+        expect(os.arch).toHaveBeenCalledTimes(ONCE);
     });
 });
