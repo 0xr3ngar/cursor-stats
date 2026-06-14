@@ -62,6 +62,7 @@ const syncCommand = defineCommand({
         }
 
         const pushed = pushToGitHub({
+            deletionDirs: ["machines"],
             dir: outputDir,
             message: "chore: update cursor stats",
             paths: Object.keys(output.files),

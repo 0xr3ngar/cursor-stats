@@ -1,15 +1,17 @@
 import { readFileSync } from "node:fs";
-import { join } from "node:path";
 
 import type { Font } from "satori";
 
-const FONTS_DIR = join(import.meta.dir, "fonts");
+import geist400 from "./fonts/Geist-400.woff" with { type: "file" };
+import geist600 from "./fonts/Geist-600.woff" with { type: "file" };
+import geistMono600 from "./fonts/GeistMono-600.woff" with { type: "file" };
+import geistMono700 from "./fonts/GeistMono-700.woff" with { type: "file" };
 
-const read = (file: string) => readFileSync(join(FONTS_DIR, file));
+const read = (path: string) => readFileSync(path);
 
 export const loadCardFonts = (): Font[] => [
-    { data: read("Geist-400.woff"), name: "Geist", style: "normal", weight: 400 },
-    { data: read("Geist-600.woff"), name: "Geist", style: "normal", weight: 600 },
-    { data: read("GeistMono-600.woff"), name: "Geist Mono", style: "normal", weight: 600 },
-    { data: read("GeistMono-700.woff"), name: "Geist Mono", style: "normal", weight: 700 },
+    { data: read(geist400), name: "Geist", style: "normal", weight: 400 },
+    { data: read(geist600), name: "Geist", style: "normal", weight: 600 },
+    { data: read(geistMono600), name: "Geist Mono", style: "normal", weight: 600 },
+    { data: read(geistMono700), name: "Geist Mono", style: "normal", weight: 700 },
 ];

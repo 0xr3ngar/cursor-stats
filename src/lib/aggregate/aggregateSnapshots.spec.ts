@@ -37,7 +37,7 @@ describe("aggregateSnapshots", () => {
             },
         });
         expect(result.meta).toEqual({
-            busiestDay: { date: "", tabAccepted: ZERO },
+            busiestDay: { date: "", totalAccepted: ZERO },
             streak: ZERO,
             trackingSince: "",
         });
