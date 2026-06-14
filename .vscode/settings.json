@@ -1,0 +1,25 @@
+{
+    "oxc.path.node": "/Users/bogdann/.nvm/versions/node/v23.11.0/bin/node",
+    "oxc.path.oxfmt": "./node_modules/.bin/oxfmt",
+    "oxc.path.oxlint": "./node_modules/.bin/oxlint",
+    "oxc.path.tsgolint": "./node_modules/.bin/tsgolint",
+    "oxc.fmt.configPath": ".oxfmtrc.json",
+    "editor.defaultFormatter": "oxc.oxc-vscode",
+    "editor.formatOnSave": true,
+    "editor.codeActionsOnSave": {
+        "source.fixAll.oxc": "always"
+    },
+    "[typescript]": {
+        "editor.defaultFormatter": "oxc.oxc-vscode"
+    },
+    "[javascript]": {
+        "editor.defaultFormatter": "oxc.oxc-vscode"
+    },
+    "[typescriptreact]": {
+        "editor.defaultFormatter": "oxc.oxc-vscode"
+    },
+    "[javascriptreact]": {
+        "editor.defaultFormatter": "oxc.oxc-vscode"
+    },
+    "typescript.native-preview.tsdk": "node_modules/@typescript/native-preview"
+}

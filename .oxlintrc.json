@@ -40,7 +40,13 @@
                 "fixStyle": "separate-type-imports"
             }
         ],
-        "unicorn/prefer-node-protocol": "error",
+        "import/no-nodejs-modules": [
+            "error",
+            {
+                "allow": ["os", "fs", "path", "node:os", "node:fs", "node:path"]
+            }
+        ],
+        "unicorn/prefer-node-protocol": "off",
         "unicorn/prefer-module": "error",
         "promise/no-multiple-resolved": "error",
         "import/no-named-export": "off",
