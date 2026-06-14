@@ -4,7 +4,6 @@ import { ZERO } from "../util/constants";
 
 const testIdentity = {
     machineId: "dev-mac-darwin-arm64",
-    username: "alice",
 } as const;
 
 const dailyStat = (
@@ -19,17 +18,7 @@ const dailyStat = (
     ...overrides,
 });
 
-const machineSnapshot = (
-    machineId: string,
-    dailyStats: Readonly<readonly ReadonlyDailyStats[]>,
-    username: string = testIdentity.username,
-) =>
-    buildMachineSnapshot(
-        {
-            machineId,
-            username,
-        },
-        dailyStats,
-    );
+const machineSnapshot = (machineId: string, dailyStats: Readonly<readonly ReadonlyDailyStats[]>) =>
+    buildMachineSnapshot({ machineId }, dailyStats);
 
 export { dailyStat, machineSnapshot, testIdentity };

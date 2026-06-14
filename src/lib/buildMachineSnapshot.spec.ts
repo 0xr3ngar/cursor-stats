@@ -15,7 +15,6 @@ describe("buildMachineSnapshot", () => {
                 tabAcceptedLines: ZERO,
                 tabSuggestedLines: ZERO,
             },
-            username: "alice",
         });
     });
 

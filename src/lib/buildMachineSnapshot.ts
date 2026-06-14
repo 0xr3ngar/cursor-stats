@@ -16,5 +16,4 @@ export const buildMachineSnapshot = (
             tabAcceptedLines: sumDailyField(dailyStats, "tabAcceptedLines"),
             tabSuggestedLines: sumDailyField(dailyStats, "tabSuggestedLines"),
         },
-        username: identity.username,
     });

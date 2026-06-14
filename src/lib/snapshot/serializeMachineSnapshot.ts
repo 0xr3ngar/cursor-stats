@@ -20,7 +20,6 @@ const MachineSnapshotFileSchema = z.object({
         tabAcceptedLines: z.number(),
         tabSuggestedLines: z.number(),
     }),
-    username: z.string(),
 });
 
 type SerializedMachineSnapshot = z.infer<typeof MachineSnapshotFileSchema>;
@@ -37,7 +36,6 @@ const serializeMachineSnapshot = (
     })),
     machineId: snapshot.machineId,
     totals: snapshot.totals,
-    username: snapshot.username,
 });
 
 const parseMachineSnapshot = (value: unknown): MachineSnapshot => {
