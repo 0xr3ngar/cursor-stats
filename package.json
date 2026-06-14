@@ -1,6 +1,6 @@
 {
   "name": "@0xr3ngar/cursor-stats",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Sync Cursor tab and composer usage from your local database to a GitHub profile README",
   "keywords": [
     "bun",
