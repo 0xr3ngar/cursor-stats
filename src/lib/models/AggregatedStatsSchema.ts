@@ -35,5 +35,3 @@ export const AggregatedStatsSchema = z.object({
     }),
     updatedAt: z.string(),
 });
-
-export type AggregatedStats = z.infer<typeof AggregatedStatsSchema>;

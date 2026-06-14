@@ -8,8 +8,6 @@ const DailyStatsSchema = z.object({
     tabSuggestedLines: z.number(),
 });
 
-type DailyStats = z.infer<typeof DailyStatsSchema>;
-
 interface ReadonlyDailyStats {
     readonly composerAcceptedLines: number;
     readonly composerSuggestedLines: number;
@@ -18,4 +16,4 @@ interface ReadonlyDailyStats {
     readonly tabSuggestedLines: number;
 }
 
-export { DailyStatsSchema, type DailyStats, type ReadonlyDailyStats };
+export { DailyStatsSchema, type ReadonlyDailyStats };

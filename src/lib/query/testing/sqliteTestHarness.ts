@@ -29,5 +29,4 @@ const createMemoryDatabase = (rows: readonly ItemTableRow[]) => {
 const SINGLE_ROW = ONE;
 const EMPTY_LENGTH = ZERO;
 
-export type { ItemTableRow };
-export { createMemoryDatabase, EMPTY_LENGTH, SAMPLE_STATS, seedItemTable, SINGLE_ROW };
+export { createMemoryDatabase, EMPTY_LENGTH, SAMPLE_STATS, SINGLE_ROW };

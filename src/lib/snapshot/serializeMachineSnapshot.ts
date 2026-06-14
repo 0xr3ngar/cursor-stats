@@ -55,4 +55,4 @@ const parseMachineSnapshot = (value: unknown): MachineSnapshot => {
     });
 };
 
-export { parseMachineSnapshot, serializeMachineSnapshot, type SerializedMachineSnapshot };
+export { parseMachineSnapshot, serializeMachineSnapshot };
