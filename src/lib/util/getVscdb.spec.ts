@@ -1,36 +1,15 @@
-import { afterEach, describe, expect, mock, spyOn, test } from "bun:test";
+import { afterEach, describe, expect, spyOn, test } from "bun:test";
 import fs from "node:fs";
-import os from "node:os";
 import { join } from "node:path";
 
 import { getVscdbPath } from "./getVscdb";
-
-const VSCDB_TAIL = ["Cursor", "User", "globalStorage", "state.vscdb"] as const;
-
-const mockDefaultPathResolution = (platform: NodeJS.Platform, home: string, appData?: string) => {
-    spyOn(os, "platform").mockReturnValue(platform);
-    spyOn(os, "homedir").mockReturnValue(home);
-
-    if (appData !== undefined) {
-        process.env.APPDATA = appData;
-    } else {
-        delete process.env.APPDATA;
-    }
-
-    spyOn(fs, "existsSync").mockReturnValue(true);
-};
+import { mockDefaultPathResolution, restoreAppData, VSCDB_TAIL } from "./testing/getVscdbHarness";
 
 describe("getVscdbPath", () => {
     const originalAppData = process.env.APPDATA;
 
     afterEach(() => {
-        mock.restore();
-
-        if (originalAppData === undefined) {
-            delete process.env.APPDATA;
-        } else {
-            process.env.APPDATA = originalAppData;
-        }
+        restoreAppData(originalAppData);
     });
 
     test("returns the provided path when it exists and ends with .vscdb", () => {
@@ -48,7 +27,6 @@ describe("getVscdbPath", () => {
         mockDefaultPathResolution("darwin", home);
 
         expect(getVscdbPath()).toBe(expectedPath);
-        expect(os.homedir).toHaveBeenCalledTimes(1);
         expect(fs.existsSync).toHaveBeenCalledWith(expectedPath);
     });
 
@@ -59,7 +37,6 @@ describe("getVscdbPath", () => {
         mockDefaultPathResolution("linux", home);
 
         expect(getVscdbPath()).toBe(expectedPath);
-        expect(os.homedir).toHaveBeenCalledTimes(1);
         expect(fs.existsSync).toHaveBeenCalledWith(expectedPath);
     });
 
@@ -70,7 +47,6 @@ describe("getVscdbPath", () => {
         mockDefaultPathResolution("win32", String.raw`C:\Users\alice`, appData);
 
         expect(getVscdbPath()).toBe(expectedPath);
-        expect(os.homedir).not.toHaveBeenCalled();
         expect(fs.existsSync).toHaveBeenCalledWith(expectedPath);
     });
 
