@@ -4,20 +4,20 @@ export default defineConfig({
     build: {
         compress: false,
         entry: "./src/index.ts",
+        external: ["@resvg/resvg-js"],
         minify: true,
         outdir: "./dist",
         sourcemap: true,
-        targets: ["native"],
     },
     commands: {
         directory: "./src/commands",
     },
-    description: "A CLI built with Bunli",
+    description: "Sync Cursor tab and composer stats to a GitHub-friendly repo",
     dev: {
         inspect: true,
         watch: true,
     },
-    name: "cursor-stats",
+    name: "@0xr3ngar/cursor-stats",
     plugins: [],
     test: {
         coverage: true,
