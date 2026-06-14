@@ -13,12 +13,10 @@ import { ZERO } from "../util/constants";
 import { aggregateSnapshots } from "./aggregateSnapshots";
 import { mergeDailyRows } from "./mergeDailyRows";
 
-const NINETY_FOUR_SEVEN_AI_DEPENDENCY_SCORE = 94.7;
 const ONE_DAY = 1;
 const TWO_DAYS = 2;
 const FIFTY_FIVE_TAB_ACCEPTED = 55;
 const ONE_HUNDRED_SEVENTY_COMPOSER_ACCEPTED = 170;
-const SEVENTY_FIVE_AI_DEPENDENCY_SCORE = 75.6;
 
 describe("aggregateSnapshots", () => {
     test("returns empty aggregates when given no snapshots", () => {
@@ -27,7 +25,6 @@ describe("aggregateSnapshots", () => {
         expect(result.daily).toEqual([]);
         expect(result.machines).toEqual({});
         expect(result.totals).toEqual({
-            aiDependencyScore: ZERO,
             composer: {
                 acceptanceRate: ZERO,
                 accepted: ZERO,
@@ -68,7 +65,6 @@ describe("aggregateSnapshots", () => {
             accepted: 607,
             suggested: 700,
         });
-        expect(result.totals.aiDependencyScore).toBe(NINETY_FOUR_SEVEN_AI_DEPENDENCY_SCORE);
         expect(result.daily).toHaveLength(ONE_DAY);
         expect(result.daily).toEqual([
             {
@@ -89,28 +85,22 @@ describe("aggregateSnapshots", () => {
                     tabAcceptedLines: 10,
                 }),
             ]),
-            machineSnapshot(
-                "machine-b",
-                [
-                    dailyStat("2024-06-14", {
-                        composerAcceptedLines: 50,
-                        tabAcceptedLines: 5,
-                    }),
-                    dailyStat("2024-06-15", {
-                        composerAcceptedLines: 20,
-                        tabAcceptedLines: 40,
-                    }),
-                ],
-                "bob",
-            ),
+            machineSnapshot("machine-b", [
+                dailyStat("2024-06-14", {
+                    composerAcceptedLines: 50,
+                    tabAcceptedLines: 5,
+                }),
+                dailyStat("2024-06-15", {
+                    composerAcceptedLines: 20,
+                    tabAcceptedLines: 40,
+                }),
+            ]),
         ]);
 
         expect(result.totals.tab.accepted).toBe(FIFTY_FIVE_TAB_ACCEPTED);
         expect(result.totals.composer.accepted).toBe(ONE_HUNDRED_SEVENTY_COMPOSER_ACCEPTED);
         expect(result.daily).toHaveLength(TWO_DAYS);
-        expect(result.totals.aiDependencyScore).toBe(SEVENTY_FIVE_AI_DEPENDENCY_SCORE);
         expect(Object.keys(result.machines)).toEqual(["machine-a", "machine-b"]);
-        expect(result.machines["machine-b"]?.username).toBe("bob");
     });
 });
 
