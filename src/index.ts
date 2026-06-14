@@ -1,14 +1,14 @@
 #!/usr/bin/env bun
 import { createCLI } from "@bunli/core";
 
-import helloCommand from "./commands/hello.js";
+import syncCommand from "./commands/sync.js";
 
 const cli = await createCLI({
-    description: "A CLI built with Bunli",
+    description: "Sync Cursor tab and composer stats to a GitHub-friendly repo",
     name: "cursor-stats",
     version: "0.1.0",
 });
 
-cli.command(helloCommand);
+cli.command(syncCommand);
 
 await cli.run();
