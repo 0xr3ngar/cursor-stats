@@ -28,6 +28,7 @@
             }
         ],
         "import/no-cycle": "error",
+        "import/max-dependencies": "off",
         "import/no-duplicates": "error",
         "import/consistent-type-specifier-style": "off",
         "typescript/no-explicit-any": "error",
@@ -54,7 +55,11 @@
         "unicorn/filename-case": "off",
         "eslint/sort-imports": "off",
         "eslint/max-lines-per-function": "off",
+        "eslint/max-lines": "off",
         "eslint/max-statements": "off",
+        "eslint/no-ternary": "off",
+        "eslint/no-magic-numbers": "off",
+        "eslint/max-params": "off",
         "typescript/prefer-readonly-parameter-types": "off"
     },
     "ignorePatterns": ["**/dist/**", "**/node_modules/**", ".bunli/**"]
