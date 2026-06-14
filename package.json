@@ -1,12 +1,38 @@
 {
-    "name": "cursor-stats",
+    "name": "@0xr3ngar/cursor-stats",
     "version": "0.1.0",
-    "description": "A CLI built with Bunli",
-    "author": "",
+    "description": "Sync Cursor tab and composer usage from your local database to a GitHub profile README",
+    "keywords": [
+        "bun",
+        "cli",
+        "cursor",
+        "cursor-ide",
+        "github-profile",
+        "stats"
+    ],
+    "homepage": "https://github.com/0xr3ngar/cursor-stats#readme",
+    "bugs": {
+        "url": "https://github.com/0xr3ngar/cursor-stats/issues"
+    },
+    "license": "MIT",
+    "author": "0xr3ngar",
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/0xr3ngar/cursor-stats.git"
+    },
     "bin": {
         "cursor-stats": "./dist/index.js"
     },
+    "files": [
+        "dist",
+        "docs",
+        "README.md",
+        "LICENSE"
+    ],
     "type": "module",
+    "publishConfig": {
+        "access": "public"
+    },
     "scripts": {
         "dev": "bun run src/index.ts",
         "lint": "oxlint",
@@ -14,6 +40,8 @@
         "fmt": "oxfmt",
         "fmt:check": "oxfmt --check",
         "build": "bunli build",
+        "generate": "bunli generate",
+        "prepublishOnly": "bun run build",
         "test": "bun test",
         "typecheck": "tsgo --noEmit",
         "knip": "knip"
@@ -35,6 +63,9 @@
         "oxlint": "^1.69.0",
         "oxlint-tsgolint": "^0.23.0",
         "typescript": "^5.0.0"
+    },
+    "engines": {
+        "bun": ">=1.0.0"
     },
     "bunli": {
         "entry": "./src/index.ts",
