@@ -4,25 +4,25 @@
 import type { Command, CLI, GeneratedOptionMeta, RegisteredCommands, CommandOptions, GeneratedCommandMeta } from '@bunli/core'
 import { createGeneratedHelpers, registerGeneratedStore } from '@bunli/core'
 
-import Hello from '../src/commands/hello.js'
+import Sync from '../src/commands/sync.js'
 
 // Narrow list of command names to avoid typeof-cycles in types
-const names = ['hello'] as const
+const names = ['sync'] as const
 type GeneratedNames = typeof names[number]
 
 const modules: Record<GeneratedNames, Command<any>> = {
-  'hello': Hello
+  'sync': Sync
 } as const
 
 const metadata: Record<GeneratedNames, GeneratedCommandMeta> = {
-  'hello': {
-      name: 'hello',
-      description: 'Say hello to someone',
+  'sync': {
+      name: 'sync',
+      description: 'Sync Cursor stats from the local database to the output directory',
       options: {
-        'excited': { type: 'z.boolean.default', required: true, hasDefault: true, default: false, description: 'Add excitement!', short: 'e', schema: {"type":"zod","method":"default","args":[{"type":"unknown","raw":{"type":"BooleanLiteral","start":453,"end":458,"loc":{"start":{"line":14,"column":44,"index":453},"end":{"line":14,"column":49,"index":458}},"value":false}}]}, validator: '(val) => true' },
-        'name': { type: 'z.string.default', required: true, hasDefault: true, default: "World", description: 'Name to greet', short: 'n', schema: {"type":"zod","method":"default","args":[{"type":"literal","value":"World"}]}, validator: '(val) => true' }
+        'outputDir': { type: 'z.string.optional', required: false, hasDefault: false, description: 'Directory for stats.json and machines/*.json (default: current working directory)', short: 'o', fileType: 'directory', schema: {"type":"zod","method":"optional","args":[]}, validator: '(val) => true' },
+        'vscdb': { type: 'z.string.optional', required: false, hasDefault: false, description: 'Path to state.vscdb (default: platform Cursor database path)', short: 'd', fileType: 'path', schema: {"type":"zod","method":"optional","args":[]}, validator: '(val) => true' }
       },
-      path: './src/commands/hello'
+      path: './src/commands/sync'
     }
 } as const
 
