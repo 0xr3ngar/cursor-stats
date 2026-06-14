@@ -8,6 +8,9 @@ Cursor's dashboard often shows **zero tab completions** even while you are activ
 
 Add it to your [GitHub special repository](https://docs.github.com/en/account-and-profile/setting-up-and-managing-your-github-profile/customizing-your-profile/managing-your-profile-readme) and enjoy.
 
+> [!WARNING]
+> I've only tested this on macOS. Haven't tried Linux or Windows, so idk if it works there.
+
 ## Install
 
 Requires [Bun](https://bun.sh):
