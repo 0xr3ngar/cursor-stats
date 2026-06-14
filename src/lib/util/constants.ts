@@ -1,0 +1,6 @@
+export const ISO_DATE_LENGTH = 10,
+    MS_PER_DAY = 86_400_000,
+    ONE = 1,
+    ONE_DECIMAL_PLACE = 10,
+    PERCENT_MULTIPLIER = 100,
+    ZERO = 0;
