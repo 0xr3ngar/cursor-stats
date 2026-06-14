@@ -81,8 +81,8 @@ describe("pushToGitHub", () => {
         writeFileSync(join(work, "stats.json"), '{"machines":{}}\n', "utf8");
 
         const pushed = pushToGitHub({
-            dir: work,
             deletionDirs: ["machines"],
+            dir: work,
             message: "remove stale machine",
             paths: ["stats.json"],
         });
