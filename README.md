@@ -13,7 +13,7 @@ Add it to your [GitHub special repository](https://docs.github.com/en/account-an
 Requires [Bun](https://bun.sh):
 
 ```bash
-bun add -g @0xr3ngar/cursor-stats
+bun add -g github-cursor-stats
 ```
 
 ## Quick start

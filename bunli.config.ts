@@ -17,7 +17,7 @@ export default defineConfig({
         inspect: true,
         watch: true,
     },
-    name: "@0xr3ngar/cursor-stats",
+    name: "github-cursor-stats",
     plugins: [],
     test: {
         coverage: true,
