@@ -41,6 +41,7 @@
         "fmt": "oxfmt",
         "fmt:check": "oxfmt --check",
         "build": "bunli build",
+        "release": "bunli release",
         "generate": "bunli generate",
         "prepublishOnly": "bun run build",
         "test": "bun test",
