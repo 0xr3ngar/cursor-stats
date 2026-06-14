@@ -53,6 +53,12 @@ cursor-stats sync [options]
       --color-muted <hex>    Muted text
 ```
 
+## Privacy
+
+`cursor-stats` reads your local Cursor database (`state.vscdb`) only. It does not send data anywhere on its own.
+
+When you sync to a GitHub repo, it writes usage stats (tab/composer accepted and suggested line counts by day) and a machine id derived from your hostname, platform, and CPU architecture (for example `my-laptop-darwin-arm64`).
+
 ## Development
 
 ```bash
@@ -64,4 +70,6 @@ bun run build
 
 ## License
 
-MIT
+MIT. See [LICENSE](LICENSE).
+
+Stats card fonts use [Geist](https://github.com/vercel/geist-font) and Geist Mono under the [SIL Open Font License 1.1](https://openfontlicense.org). See [NOTICE](NOTICE).

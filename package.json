@@ -27,7 +27,8 @@
         "dist",
         "docs",
         "README.md",
-        "LICENSE"
+        "LICENSE",
+        "NOTICE"
     ],
     "type": "module",
     "publishConfig": {
