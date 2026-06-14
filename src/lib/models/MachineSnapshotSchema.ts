@@ -38,9 +38,4 @@ interface ReadonlyMachineSnapshot {
     readonly username: string;
 }
 
-export {
-    MachineSnapshotSchema,
-    type MachineSnapshot,
-    type ReadonlyMachineSnapshot,
-    type ReadonlyMachineSnapshotTotals,
-};
+export { MachineSnapshotSchema, type MachineSnapshot, type ReadonlyMachineSnapshot };
