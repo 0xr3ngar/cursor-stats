@@ -19,7 +19,6 @@ const MachineSnapshotSchema = z.object({
         tabAcceptedLines: z.number(),
         tabSuggestedLines: z.number(),
     }),
-    username: z.string(),
 });
 
 type MachineSnapshot = z.infer<typeof MachineSnapshotSchema>;
@@ -35,7 +34,6 @@ interface ReadonlyMachineSnapshot {
     readonly dailyStats: readonly ReadonlyDailyStats[];
     readonly machineId: string;
     readonly totals: ReadonlyMachineSnapshotTotals;
-    readonly username: string;
 }
 
 export { MachineSnapshotSchema, type MachineSnapshot, type ReadonlyMachineSnapshot };
