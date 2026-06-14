@@ -15,7 +15,7 @@ export const AggregatedStatsSchema = z.object({
     meta: z.object({
         busiestDay: z.object({
             date: z.string(),
-            tabAccepted: z.number(),
+            totalAccepted: z.number(),
         }),
         streak: z.number(),
         trackingSince: z.string(),

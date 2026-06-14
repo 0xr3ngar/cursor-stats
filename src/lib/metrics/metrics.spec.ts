@@ -101,10 +101,10 @@ describe("calculateStreak", () => {
 
 describe("findBusiestDay", () => {
     test("returns an empty result when there is no daily data", () => {
-        expect(findBusiestDay([])).toEqual({ date: "", tabAccepted: ZERO });
+        expect(findBusiestDay([])).toEqual({ date: "", totalAccepted: ZERO });
     });
 
-    test("returns the day with the highest tab accepted count", () => {
+    test("returns the day with the highest total accepted count", () => {
         expect(
             findBusiestDay([
                 {
@@ -127,8 +127,8 @@ describe("findBusiestDay", () => {
                 },
             ]),
         ).toEqual({
-            date: "2024-06-11",
-            tabAccepted: BUSIEST_TAB_HIGH,
+            date: "2024-06-12",
+            totalAccepted: BUSIEST_TOTAL_COMPOSER,
         });
     });
 });

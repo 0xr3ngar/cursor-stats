@@ -1,5 +1,5 @@
 import { afterEach, describe, expect, test } from "bun:test";
-import { mkdtempSync, rmSync, writeFileSync } from "node:fs";
+import { mkdtempSync, rmSync, writeFileSync, mkdirSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 
@@ -64,5 +64,35 @@ describe("pushToGitHub", () => {
         const pushed = pushToGitHub({ dir: work, message: "noop", paths: ["README.md"] });
 
         expect(pushed).toBe(false);
+    });
+
+    test("stages tracked deletions in deletionDirs", () => {
+        const { remote, work } = createClonedRepo();
+        dirs.push(remote, work);
+
+        mkdirSync(join(work, "machines"), { recursive: true });
+        writeFileSync(join(work, "machines", "stale-machine.json"), "{}\n", "utf8");
+        writeFileSync(join(work, "stats.json"), "{}\n", "utf8");
+        git(work, ["add", "machines/stale-machine.json", "stats.json"]);
+        git(work, ["commit", "-m", "add machine"]);
+        git(work, ["push"]);
+
+        rmSync(join(work, "machines", "stale-machine.json"));
+        writeFileSync(join(work, "stats.json"), '{"machines":{}}\n', "utf8");
+
+        const pushed = pushToGitHub({
+            dir: work,
+            deletionDirs: ["machines"],
+            message: "remove stale machine",
+            paths: ["stats.json"],
+        });
+
+        expect(pushed).toBe(true);
+        expect(git(work, ["ls-tree", "-r", "--name-only", "HEAD"])).not.toContain(
+            "machines/stale-machine.json",
+        );
+        expect(git(work, ["rev-parse", "HEAD"]).trim()).toBe(
+            git(work, ["rev-parse", "origin/main"]).trim(),
+        );
     });
 });

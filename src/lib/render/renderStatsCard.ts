@@ -1,11 +1,9 @@
-import { readFileSync } from "node:fs";
-import { join } from "node:path";
-
 import { Resvg } from "@resvg/resvg-js";
 import satori from "satori";
 
 import { buildHeatmap, type Heatmap, type HeatmapColumn } from "../metrics/buildHeatmap";
 import type { AggregatedStats } from "../models/AggregatedStatsSchema";
+import iconSvg from "./assets/cursor-ai-code-icon.svg" with { type: "text" };
 import { loadCardFonts } from "./loadCardFonts";
 
 interface StatsCardVisibility {
@@ -48,7 +46,7 @@ const DEFAULT_THEME: CardTheme = {
     track: "#FFFFFF14",
 };
 
-const ICON_DATA_URL = `data:image/svg+xml;base64,${readFileSync(join(import.meta.dir, "assets", "cursor-ai-code-icon.svg")).toString("base64")}`;
+const ICON_DATA_URL = `data:image/svg+xml;base64,${Buffer.from(iconSvg).toString("base64")}`;
 
 type StyleValue = string | number;
 type Style = Record<string, StyleValue>;
