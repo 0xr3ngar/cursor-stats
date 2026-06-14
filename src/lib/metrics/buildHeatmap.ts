@@ -93,4 +93,4 @@ const buildHeatmap = (
     return { columns, months };
 };
 
-export { buildHeatmap, type Heatmap, type HeatmapCell, type HeatmapColumn };
+export { buildHeatmap, type Heatmap, type HeatmapColumn };

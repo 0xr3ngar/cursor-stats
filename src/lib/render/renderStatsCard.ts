@@ -322,8 +322,10 @@ const renderStatsCard = async (
     theme: Readonly<Partial<CardTheme>> = {},
 ) => {
     const svg = await satori(
-        // @ts-expect-error - satori's ReactNode typing is incompatible with our plain Node tree
-        buildCard(stats, visibility, resolveTheme(theme)),
+        // oxlint-disable-next-line typescript/no-unsafe-type-assertion -- plain Node tree is valid satori input
+        buildCard(stats, visibility, resolveTheme(theme)) as unknown as Parameters<
+            typeof satori
+        >[0],
         { fonts: loadCardFonts(), width: HEATMAP_WIDTH },
     );
 
