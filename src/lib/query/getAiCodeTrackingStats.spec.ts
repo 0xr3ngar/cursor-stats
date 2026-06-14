@@ -1,59 +1,45 @@
-import sqlite3 from "bun:sqlite";
 import { afterEach, describe, expect, test } from "bun:test";
 
+import type { ReadonlyDailyStats } from "../models/DailyStatsSchema";
+import { ISO_DATE_LENGTH, ZERO } from "../util/constants";
 import { getAiCodeTrackingStats } from "./getAiCodeTrackingStats";
-
-const SAMPLE_STATS = {
-    composerAcceptedLines: 10,
-    composerSuggestedLines: 20,
-    date: "2024-06-14",
-    tabAcceptedLines: 5,
-    tabSuggestedLines: 15,
-} as const;
-
-const seedItemTable = (db: sqlite3, rows: { key: string; value: string }[]) => {
-    db.run("CREATE TABLE ItemTable (key TEXT PRIMARY KEY, value TEXT)");
-    for (const row of rows) {
-        db.run("INSERT INTO ItemTable (key, value) VALUES (?, ?)", [row.key, row.value]);
-    }
-};
+import {
+    createMemoryDatabase,
+    EMPTY_LENGTH,
+    SAMPLE_STATS,
+    SINGLE_ROW,
+} from "./testing/sqliteTestHarness";
 
 describe("getAiCodeTrackingStats", () => {
-    const dbs: sqlite3[] = [];
+    const dbs: ReturnType<typeof createMemoryDatabase>[] = [];
 
     afterEach(() => {
         for (const db of dbs) {
             db.close();
         }
-        dbs.length = 0;
+        dbs.length = EMPTY_LENGTH;
     });
 
-    const openMemoryDb = (rows: { key: string; value: string }[]) => {
-        const db = new sqlite3(":memory:");
-        seedItemTable(db, rows);
-        dbs.push(db);
-        return db;
-    };
-
     test("returns parsed daily stats for matching keys", () => {
-        const db = openMemoryDb([
+        const db = createMemoryDatabase([
             {
                 key: "aiCodeTracking.dailyStats2024-06-14",
                 value: JSON.stringify(SAMPLE_STATS),
             },
         ]);
+        dbs.push(db);
 
         const stats = getAiCodeTrackingStats(db);
 
-        expect(stats).toHaveLength(1);
-        expect(stats[0]).toEqual({
+        expect(stats).toHaveLength(SINGLE_ROW);
+        expect(stats[ZERO]).toEqual({
             ...SAMPLE_STATS,
             date: new Date("2024-06-14"),
         });
     });
 
     test("ignores rows whose keys do not match the daily stats prefix", () => {
-        const db = openMemoryDb([
+        const db = createMemoryDatabase([
             {
                 key: "aiCodeTracking.dailyStats2024-06-14",
                 value: JSON.stringify(SAMPLE_STATS),
@@ -63,12 +49,13 @@ describe("getAiCodeTrackingStats", () => {
                 value: JSON.stringify({ ignored: true }),
             },
         ]);
+        dbs.push(db);
 
-        expect(getAiCodeTrackingStats(db)).toHaveLength(1);
+        expect(getAiCodeTrackingStats(db)).toHaveLength(SINGLE_ROW);
     });
 
     test("returns rows ordered by key", () => {
-        const db = openMemoryDb([
+        const db = createMemoryDatabase([
             {
                 key: "aiCodeTracking.dailyStats2024-06-16",
                 value: JSON.stringify({ ...SAMPLE_STATS, date: "2024-06-16" }),
@@ -78,33 +65,37 @@ describe("getAiCodeTrackingStats", () => {
                 value: JSON.stringify(SAMPLE_STATS),
             },
         ]);
+        dbs.push(db);
 
         const stats = getAiCodeTrackingStats(db);
 
-        expect(stats.map((stat) => stat.date.toISOString().slice(0, 10))).toEqual([
-            "2024-06-14",
-            "2024-06-16",
-        ]);
+        expect(
+            stats.map((stat: Readonly<ReadonlyDailyStats>) =>
+                stat.date.toISOString().slice(ZERO, ISO_DATE_LENGTH),
+            ),
+        ).toEqual(["2024-06-14", "2024-06-16"]);
     });
 
     test("throws when a row value is not valid JSON", () => {
-        const db = openMemoryDb([
+        const db = createMemoryDatabase([
             {
                 key: "aiCodeTracking.dailyStats2024-06-14",
                 value: "not-json",
             },
         ]);
+        dbs.push(db);
 
         expect(() => getAiCodeTrackingStats(db)).toThrow(SyntaxError);
     });
 
     test("throws when a row value does not match the daily stats schema", () => {
-        const db = openMemoryDb([
+        const db = createMemoryDatabase([
             {
                 key: "aiCodeTracking.dailyStats2024-06-14",
                 value: JSON.stringify({ date: "2024-06-14" }),
             },
         ]);
+        dbs.push(db);
 
         expect(() => getAiCodeTrackingStats(db)).toThrow();
     });
