@@ -1,5 +1,4 @@
 import { acceptanceRate } from "../metrics/acceptanceRate";
-import { aiDependencyScore } from "../metrics/aiDependencyScore";
 
 export type MetricInputs = Readonly<{
     composerAccepted: number;
@@ -9,7 +8,6 @@ export type MetricInputs = Readonly<{
 }>;
 
 export const buildMetricTotals = (inputs: MetricInputs) => ({
-    aiDependencyScore: aiDependencyScore(inputs.tabAccepted, inputs.composerAccepted),
     composer: {
         acceptanceRate: acceptanceRate(inputs.composerAccepted, inputs.composerSuggested),
         accepted: inputs.composerAccepted,

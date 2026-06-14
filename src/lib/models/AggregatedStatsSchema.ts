@@ -21,7 +21,6 @@ export const AggregatedStatsSchema = z.object({
         trackingSince: z.string(),
     }),
     totals: z.object({
-        aiDependencyScore: z.number(),
         composer: z.object({
             acceptanceRate: z.number(),
             accepted: z.number(),
@@ -35,3 +34,5 @@ export const AggregatedStatsSchema = z.object({
     }),
     updatedAt: z.string(),
 });
+
+export type AggregatedStats = z.infer<typeof AggregatedStatsSchema>;

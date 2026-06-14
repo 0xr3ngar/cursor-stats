@@ -4,8 +4,6 @@ import {
     ACCEPTANCE_COMPOSER_DAY,
     ACCEPTANCE_NONE,
     ACCEPTANCE_TAB_DAY,
-    AI_DEPENDENCY_MULTI_MACHINE,
-    AI_DEPENDENCY_SINGLE_MACHINE,
     BUSIEST_COMPOSER_ONLY,
     BUSIEST_TAB_HIGH,
     BUSIEST_TAB_LOW,
@@ -16,11 +14,9 @@ import {
     METRICS_ACCEPTED_SIX_OH_SEVEN,
     METRICS_ACCEPTED_TEN,
     METRICS_ACCEPTED_THIRTY_FOUR,
-    METRICS_COMPOSER_ONE_SEVENTY,
     METRICS_SUGGESTED_HUNDRED,
     METRICS_SUGGESTED_SEVEN_HUNDRED,
     METRICS_SUGGESTED_ZERO,
-    METRICS_TAB_FIFTY_FIVE,
     STREAK_ACTIVITY_ONE,
     STREAK_ACTIVITY_THREE,
     STREAK_ACTIVITY_TWO,
@@ -29,12 +25,8 @@ import {
 } from "../testing/expectations";
 import { ZERO } from "../util/constants";
 import { acceptanceRate } from "./acceptanceRate";
-import { aiDependencyScore } from "./aiDependencyScore";
 import { calculateStreak } from "./calculateStreak";
 import { findBusiestDay } from "./findBusiestDay";
-
-const TAB_THIRTY_FOUR = 34;
-const COMPOSER_SIX_OH_SEVEN = 607;
 
 describe("acceptanceRate", () => {
     test("returns zero when nothing was suggested", () => {
@@ -47,21 +39,6 @@ describe("acceptanceRate", () => {
         );
         expect(acceptanceRate(METRICS_ACCEPTED_SIX_OH_SEVEN, METRICS_SUGGESTED_SEVEN_HUNDRED)).toBe(
             ACCEPTANCE_COMPOSER_DAY,
-        );
-    });
-});
-
-describe("aiDependencyScore", () => {
-    test("returns zero when nothing was accepted", () => {
-        expect(aiDependencyScore(ZERO, ZERO)).toBe(ZERO);
-    });
-
-    test("returns composer share of accepted lines", () => {
-        expect(aiDependencyScore(TAB_THIRTY_FOUR, COMPOSER_SIX_OH_SEVEN)).toBe(
-            AI_DEPENDENCY_SINGLE_MACHINE,
-        );
-        expect(aiDependencyScore(METRICS_TAB_FIFTY_FIVE, METRICS_COMPOSER_ONE_SEVENTY)).toBe(
-            AI_DEPENDENCY_MULTI_MACHINE,
         );
     });
 });
