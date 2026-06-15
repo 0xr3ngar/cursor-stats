@@ -3,7 +3,7 @@
     "workspaces": {
         ".": {
             "project": ["src/**/*.ts"],
-            "ignoreDependencies": ["@bunli/test", "@tsconfig/bun"]
+            "ignoreDependencies": ["@tsconfig/bun"]
         }
     }
 }

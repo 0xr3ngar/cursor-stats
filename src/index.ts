@@ -1,18 +1,22 @@
 #!/usr/bin/env bun
-import { createRequire } from "node:module";
+import { readFileSync } from "node:fs";
+import { join } from "node:path";
 
 import { Command } from "commander";
+import { z } from "zod";
 
 import { createSyncCommand } from "./commands/sync.js";
 
-const { version } = createRequire(import.meta.url)("../package.json") as { version: string };
+const packageJson = z
+    .object({ version: z.string() })
+    .parse(JSON.parse(readFileSync(join(import.meta.dirname, "..", "package.json"), "utf8")));
 
 const program = new Command();
 
 program
     .name("cursor-stats")
     .description("Sync Cursor tab and composer stats to a GitHub-friendly repo")
-    .version(version);
+    .version(packageJson.version);
 
 program.addCommand(createSyncCommand());
 
