@@ -53,8 +53,8 @@ interface SyncCommandOptions {
     readonly colorText?: string;
     readonly outputDir?: string;
     readonly push?: boolean;
-    readonly noShowComposer?: boolean;
-    readonly noShowTab?: boolean;
+    readonly showComposer?: boolean;
+    readonly showTab?: boolean;
     readonly vscdb?: string;
 }
 
@@ -142,8 +142,8 @@ export const createSyncCommand = () => {
                 colorText: options.colorText,
                 outputDir: options.outputDir,
                 push: options.push ?? false,
-                showComposer: !(options.noShowComposer ?? false),
-                showTab: !(options.noShowTab ?? false),
+                showComposer: options.showComposer ?? true,
+                showTab: options.showTab ?? true,
                 vscdb: options.vscdb,
             });
 
