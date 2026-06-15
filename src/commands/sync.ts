@@ -2,7 +2,7 @@ import { mkdirSync, writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 
 import chalk from "chalk";
-import { Command, Option } from "commander";
+import { Command } from "commander";
 import ora from "ora";
 import { z } from "zod";
 
@@ -18,18 +18,6 @@ const hexColor = (label: string) =>
         .regex(HEX_COLOR, "Expected a hex color like #2DD4BF")
         .optional()
         .describe(`${label} color as a hex value (e.g. #2DD4BF)`);
-
-const parseBoolean = (value: string): boolean => {
-    if (value === "true") {
-        return true;
-    }
-
-    if (value === "false") {
-        return false;
-    }
-
-    throw new Error(`Expected "true" or "false", got "${value}"`);
-};
 
 const syncFlagsSchema = z.object({
     colorAccent: hexColor("Accent (heatmap)"),
@@ -48,11 +36,8 @@ const syncFlagsSchema = z.object({
         .boolean()
         .default(false)
         .describe("Commit and push the generated files to the git remote"),
-    showComposer: z
-        .boolean()
-        .default(true)
-        .describe("Show the composer metric (hide with --show-composer false)"),
-    showTab: z.boolean().default(true).describe("Show the tab metric (hide with --show-tab false)"),
+    showComposer: z.boolean().default(true).describe("Show the composer metric"),
+    showTab: z.boolean().default(true).describe("Show the tab metric"),
     vscdb: z
         .string()
         .optional()
@@ -68,8 +53,8 @@ interface SyncCommandOptions {
     readonly colorText?: string;
     readonly outputDir?: string;
     readonly push?: boolean;
-    readonly showComposer?: boolean;
-    readonly showTab?: boolean;
+    readonly noShowComposer?: boolean;
+    readonly noShowTab?: boolean;
     readonly vscdb?: string;
 }
 
@@ -135,19 +120,8 @@ export const createSyncCommand = () => {
             "Directory for stats.json and machines/*.json (default: current working directory)",
         )
         .option("-p, --push", "Commit and push the generated files to the git remote")
-        .addOption(
-            new Option(
-                "--show-composer <boolean>",
-                "Show the composer metric (hide with --show-composer false)",
-            )
-                .default(true)
-                .argParser(parseBoolean),
-        )
-        .addOption(
-            new Option("--show-tab <boolean>", "Show the tab metric (hide with --show-tab false)")
-                .default(true)
-                .argParser(parseBoolean),
-        )
+        .option("--no-show-composer", "Hide the composer metric")
+        .option("--no-show-tab", "Hide the tab metric")
         .option(
             "-d, --vscdb <path>",
             "Path to state.vscdb (default: platform Cursor database path)",
@@ -168,8 +142,8 @@ export const createSyncCommand = () => {
                 colorText: options.colorText,
                 outputDir: options.outputDir,
                 push: options.push ?? false,
-                showComposer: options.showComposer,
-                showTab: options.showTab,
+                showComposer: !(options.noShowComposer ?? false),
+                showTab: !(options.noShowTab ?? false),
                 vscdb: options.vscdb,
             });
 

@@ -46,8 +46,8 @@ cursor-stats sync [options]
   -o, --output-dir <dir>   Output directory (default: cwd)
   -p, --push               Commit and push generated files
   -d, --vscdb <path>       Path to state.vscdb (default: Cursor app data)
-      --show-tab <bool>      Show tab usage bar (default: true)
-      --show-composer <bool> Show composer usage bar (default: true)
+      --no-show-tab        Hide tab usage bar
+      --no-show-composer   Hide composer usage bar
       --color-tab <hex>      Tab bar color
       --color-composer <hex> Composer bar color
       --color-accent <hex>   Heatmap accent color
@@ -66,7 +66,7 @@ When you sync to a GitHub repo, it writes usage stats (tab/composer accepted and
 
 ```bash
 bun install
-bun dev -- sync
+bun dev sync
 bun test
 bun run build
 ```
