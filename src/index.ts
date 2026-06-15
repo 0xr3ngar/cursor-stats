@@ -1,14 +1,19 @@
 #!/usr/bin/env bun
-import { createCLI } from "@bunli/core";
+import { createRequire } from "node:module";
 
-import syncCommand from "./commands/sync.js";
+import { Command } from "commander";
 
-const cli = await createCLI({
-    description: "Sync Cursor tab and composer stats to a GitHub-friendly repo",
-    name: "cursor-stats",
-    version: "0.1.0",
-});
+import { createSyncCommand } from "./commands/sync.js";
 
-cli.command(syncCommand);
+const { version } = createRequire(import.meta.url)("../package.json") as { version: string };
 
-await cli.run();
+const program = new Command();
+
+program
+    .name("cursor-stats")
+    .description("Sync Cursor tab and composer stats to a GitHub-friendly repo")
+    .version(version);
+
+program.addCommand(createSyncCommand());
+
+await program.parseAsync(process.argv);
