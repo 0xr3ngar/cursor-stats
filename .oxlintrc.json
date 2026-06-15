@@ -63,5 +63,5 @@
         "unicorn/number-literal-case": "off",
         "typescript/prefer-readonly-parameter-types": "off"
     },
-    "ignorePatterns": ["**/dist/**", "**/node_modules/**", ".bunli/**"]
+    "ignorePatterns": ["**/dist/**", "**/node_modules/**"]
 }

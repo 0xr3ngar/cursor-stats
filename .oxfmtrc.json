@@ -10,7 +10,7 @@
     "insertFinalNewline": true,
     "sortImports": true,
     "sortPackageJson": true,
-    "ignorePatterns": ["**/dist/**", "**/node_modules/**", ".bunli/**"],
+    "ignorePatterns": ["**/dist/**", "**/node_modules/**"],
     "overrides": [
         {
             "files": ["*.{yml,yaml}"],

@@ -44,7 +44,10 @@ const syncFlagsSchema = z.object({
         .describe(
             "Directory for stats.json and machines/*.json (default: current working directory)",
         ),
-    push: z.boolean().default(false).describe("Commit and push the generated files to the git remote"),
+    push: z
+        .boolean()
+        .default(false)
+        .describe("Commit and push the generated files to the git remote"),
     showComposer: z
         .boolean()
         .default(true)
@@ -55,6 +58,20 @@ const syncFlagsSchema = z.object({
         .optional()
         .describe("Path to state.vscdb (default: platform Cursor database path)"),
 });
+
+interface SyncCommandOptions {
+    readonly colorAccent?: string;
+    readonly colorBg?: string;
+    readonly colorComposer?: string;
+    readonly colorMuted?: string;
+    readonly colorTab?: string;
+    readonly colorText?: string;
+    readonly outputDir?: string;
+    readonly push?: boolean;
+    readonly showComposer?: boolean;
+    readonly showTab?: boolean;
+    readonly vscdb?: string;
+}
 
 const writeSyncOutput = (outputDir: string, files: Readonly<Record<string, unknown>>) => {
     for (const [relativePath, content] of Object.entries(files)) {
@@ -107,9 +124,7 @@ const runSync = async (flags: z.infer<typeof syncFlagsSchema>) => {
         paths: Object.keys(output.files),
     });
 
-    spinner.succeed(
-        chalk.green(pushed ? `Pushed stats from ${outputDir}` : "No changes to push"),
-    );
+    spinner.succeed(chalk.green(pushed ? `Pushed stats from ${outputDir}` : "No changes to push"));
 };
 
 export const createSyncCommand = () => {
@@ -121,7 +136,10 @@ export const createSyncCommand = () => {
         )
         .option("-p, --push", "Commit and push the generated files to the git remote")
         .addOption(
-            new Option("--show-composer <boolean>", "Show the composer metric (hide with --show-composer false)")
+            new Option(
+                "--show-composer <boolean>",
+                "Show the composer metric (hide with --show-composer false)",
+            )
                 .default(true)
                 .argParser(parseBoolean),
         )
@@ -130,14 +148,17 @@ export const createSyncCommand = () => {
                 .default(true)
                 .argParser(parseBoolean),
         )
-        .option("-d, --vscdb <path>", "Path to state.vscdb (default: platform Cursor database path)")
+        .option(
+            "-d, --vscdb <path>",
+            "Path to state.vscdb (default: platform Cursor database path)",
+        )
         .option("--color-accent <hex>", "Accent (heatmap) color as a hex value (e.g. #2DD4BF)")
         .option("--color-bg <hex>", "Card background color as a hex value (e.g. #2DD4BF)")
         .option("--color-composer <hex>", "Composer metric color as a hex value (e.g. #2DD4BF)")
         .option("--color-muted <hex>", "Muted text color as a hex value (e.g. #2DD4BF)")
         .option("--color-tab <hex>", "Tab metric color as a hex value (e.g. #2DD4BF)")
         .option("--color-text <hex>", "Primary text color as a hex value (e.g. #2DD4BF)")
-        .action(async (options) => {
+        .action(async (options: SyncCommandOptions) => {
             const flags = syncFlagsSchema.parse({
                 colorAccent: options.colorAccent,
                 colorBg: options.colorBg,
